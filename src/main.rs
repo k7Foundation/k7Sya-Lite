@@ -15,7 +15,7 @@ fn main() {
     }
 
     if file_path.is_empty() {
-        println!("k7Sya Lite v0.1a\nUsage: .\\k7sya_lite.exe file=\"path\" [-v]");
+        println!("k7Sya Lite v0.1a (Public Alpha)\nUsage: .\\k7sya_lite.exe file=\"path\" [-v]");
         return;
     }
 
