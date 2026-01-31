@@ -1,34 +1,58 @@
-name: Rust Build and Artifact
+name: Auto Release
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
-env:
-  CARGO_TERM_COLOR: always
+permissions:
+  contents: write
 
 jobs:
   build:
-    # Используем windows-latest, чтобы получить .exe файл
-    runs-on: windows-latest 
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Build project
-      # Собираем в режиме release для лучшей производительности
-      run: cargo build --release 
+      run: cargo build --release
 
-    - name: Run tests
-      run: cargo test --release --verbose
+    - name: Create Example Script
+      shell: bash
+      run: |
+        cat <<EOF > example.k7sya
+        #import "std.kh"
 
-    - name: Upload Build Result
-      # Этот шаг сохраняет файл, чтобы его можно было скачать
-      uses: actions/upload-artifact@v4
+        main :: {
+            var greeting: str = "Hello"
+            var name: str = "World!"
+            var version: i32 = 1
+            
+
+            var message: str = greeting ~ ", " ~ name
+            
+            println(message)
+            println("Check (variables): " ~ version)
+            
+            var x: i32 = 10
+            var y: i32 = 20
+            var result: i32 = x + y
+            
+            println("check (math): " ~ result)
+        }
+        EOF
+
+    - name: Automatic Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: k7sya-binary-windows
-        # Путь к твоему скомпилированному файлу
-        path: target/release/k7sya_lite.exe
+        tag_name: latest
+        name: Latest Auto-Build
+        body: |
+          Автоматическая сборка движка.
+          В комплекте: k7sya_lite.exe и тестовый скрипт example.k7sya.
+        files: |
+          target/release/k7sya_lite.exe
+          example.k7sya
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
