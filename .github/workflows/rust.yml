@@ -1,4 +1,4 @@
-name: Rust
+name: Rust Build and Artifact
 
 on:
   push:
@@ -11,17 +11,24 @@ env:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    # Используем windows-latest, чтобы получить .exe файл
+    runs-on: windows-latest 
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build project
+      # Собираем в режиме release для лучшей производительности
+      run: cargo build --release 
+
     - name: Run tests
-      run: cargo test --verbose
-    - name: Upload Build Artifact
+      run: cargo test --release --verbose
+
+    - name: Upload Build Result
+      # Этот шаг сохраняет файл, чтобы его можно было скачать
       uses: actions/upload-artifact@v4
       with:
-        name: k7sya-binary #maybe i messed up idk 
-        path: target/debug/k7sya_lite
+        name: k7sya-binary-windows
+        # Путь к твоему скомпилированному файлу
+        path: target/release/k7sya_lite.exe
