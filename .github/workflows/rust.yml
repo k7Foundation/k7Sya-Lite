@@ -46,11 +46,12 @@ jobs:
     - name: Automatic Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: latest
-        name: Latest Auto-Build
+        tag_name: dev
+        prerelease: true
+        name: Dev Version
         body: |
-          Автоматическая сборка движка.
-          В комплекте: k7sya_lite.exe и тестовый скрипт example.k7sya.
+          Theres no information because of Automatic build
+          Dont ignore example.k7sya maybe it helps for you to know k7Sya
         files: |
           target/release/k7sya_lite.exe
           example.k7sya
