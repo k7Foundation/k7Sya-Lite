@@ -1,1 +1,1 @@
-# k7Sya-Lite
+# k7Sya Lite
