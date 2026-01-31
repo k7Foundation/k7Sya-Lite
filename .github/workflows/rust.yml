@@ -23,5 +23,5 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: k7sya-binary
+        name: k7sya-binary #maybe i messed up idk 
         path: target/debug/k7sya_lite
